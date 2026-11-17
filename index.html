@@ -264,26 +264,6 @@ textarea{min-height:88px}
 </style>
 </head>
 <body>
-
-<div id="authGate" style="position:fixed;inset:0;z-index:9999;background:#f3f8f5;display:flex;align-items:center;justify-content:center;padding:18px">
- <div style="width:100%;max-width:430px;background:#fff;border-radius:22px;padding:22px;box-shadow:0 12px 38px #123b281c">
-  <div style="font-size:34px;text-align:center">🕌</div>
-  <h2 style="text-align:center;color:#126044;margin:8px 0">মসজিদ হিসাব লগইন</h2>
-  <p style="text-align:center;color:#68776f;font-size:13px;line-height:1.6">অনুমোদিত ফোন নম্বর দিয়ে OTP নিয়ে একই মসজিদের অনলাইন হিসাব ব্যবহার করুন।</p>
-  <div id="authStatus" class="note">প্রথমে ফোন নম্বর লিখে OTP পাঠান। আগে Firebase Rules-এ প্রধান অ্যাডমিন নম্বর সেট করতে হবে।</div>
-  <label>ফোন নম্বর (+880 সহ)</label>
-  <input id="loginPhone" type="tel" placeholder="+8801XXXXXXXXX" autocomplete="tel">
-  <div id="recaptcha-container" style="margin-top:12px;overflow:hidden"></div>
-  <div class="actions"><button class="btn" id="sendOtpBtn" type="button" onclick="sendPhoneOTP()">OTP পাঠান</button></div>
-  <div id="otpArea" style="display:none">
-   <label>SMS-এ পাওয়া OTP কোড</label>
-   <input id="loginOtp" inputmode="numeric" autocomplete="one-time-code" placeholder="৬ সংখ্যার কোড">
-   <div class="actions"><button class="btn" type="button" onclick="verifyPhoneOTP()">লগইন করুন</button></div>
-  </div>
-  <p class="smallmuted">শুধু অ্যাডমিনের অনুমোদিত নম্বর প্রবেশ করতে পারবে। OTP কারও সঙ্গে শেয়ার করবেন না।</p>
- </div>
-</div>
-
 <header class="mosque-header">
  <div class="header-title-row"><h1 id="mosqueTitle">সাহাব্দীর চর বেপারী পাড়া জামে মসজিদ</h1><button class="header-settings" onclick="openSettings()" aria-label="সেটিংস">⚙</button></div>
  <div class="live-clock"><span id="liveDate">তারিখ লোড হচ্ছে...</span><span class="clock-dot">●</span><strong id="liveTime">--:--:--</strong></div>
@@ -326,8 +306,7 @@ textarea{min-height:88px}
  <section id="backup" class="page">
   <div class="section"><h2>ডেটা ব্যাকআপ ও পুনরুদ্ধার</h2><p class="smallmuted">এই ডিভাইসে তথ্য স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়। নিয়মিত JSON ব্যাকআপ ডাউনলোড করে নিরাপদে রাখুন।</p><div class="actions"><button class="btn" onclick="backupJSON()">⬇ ব্যাকআপ ডাউনলোড</button><button class="btn secondary" onclick="document.getElementById('restoreFile').click()">⬆ ব্যাকআপ ফিরিয়ে আনুন</button><input type="file" id="restoreFile" accept=".json,application/json" hidden onchange="restoreJSON(event)"></div></div>
   <div class="section"><h2>অনলাইন ব্যাকআপ ও একাধিক ব্যবহারকারী</h2><p class="smallmuted">অনলাইন সিঙ্ক চালু করতে Firebase প্রকল্প, ওয়েব অ্যাপ কনফিগারেশন এবং নিরাপদ Firestore Rules প্রয়োজন। নিচের সেটআপ নির্দেশনা অনুসরণ করে কনফিগারেশন বসালে একই ডেটা একাধিক লগইন থেকে ব্যবহার করা যাবে।</p><div class="note">এখনকার সংস্করণে মোবাইল/ব্রাউজারের লোকাল স্টোরেজ কাজ করছে। অনলাইন সিঙ্ক বা বহু-ব্যবহারকারী চালু হয়েছে—এমন দাবি করা হচ্ছে না; Firebase কনফিগার না করা পর্যন্ত এটি শুধু এই ডিভাইসেই থাকবে।</div><div class="actions"><button class="btn secondary" onclick="showFirebaseHelp()">Firebase সেটআপ নির্দেশনা</button></div></div>
-  <div class="section"><h2>অনুমোদিত ব্যবহারকারী</h2><p class="smallmuted">শুধু অ্যাডমিন নতুন ফোন নম্বর অনুমোদন করতে পারবেন। নতুন ব্যক্তি আগে একবার OTP দিয়ে লগইন করলে অ্যাডমিন তাঁকে অনুমতি দিতে পারবেন।</p><div id="memberAdminPanel"><div class="smallmuted">অ্যাডমিন লগইন হলে এখানে ব্যবহারকারী যোগ করার অপশন দেখা যাবে।</div></div></div>
- <div class="section"><h2>ডেটা ব্যবস্থাপনা</h2><p class="smallmuted">সব হিসাব মুছে ফেলার আগে অবশ্যই ব্যাকআপ নিন।</p><button class="btn danger" onclick="clearAll()">সব ডেটা মুছুন</button></div>
+  <div class="section"><h2>ডেটা ব্যবস্থাপনা</h2><p class="smallmuted">সব হিসাব মুছে ফেলার আগে অবশ্যই ব্যাকআপ নিন।</p><button class="btn danger" onclick="clearAll()">সব ডেটা মুছুন</button></div>
  </section>
 </div>
 <nav class="no-print">
@@ -340,10 +319,6 @@ textarea{min-height:88px}
 </nav>
 <div id="appToast" class="app-toast" role="status" aria-live="polite"></div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet"><div class="sheethead"><h3 id="modalTitle">নতুন তথ্য</h3><button class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
-
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
 const KEY='mosque_accounting_v1';
 let db=loadDB(), txFilter='all';
@@ -357,15 +332,7 @@ INITIAL_MONTHLY_MEMBERS.forEach((name,index)=>{
 });
 if(seededMembers){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
 function loadDB(){try{return JSON.parse(localStorage.getItem(KEY))||{mosque:'সাহাব্দীর চর বেপারী পাড়া জামে মসজিদ',tx:[],donors:[]}}catch(e){return{mosque:'সাহাব্দীর চর বেপারী পাড়া জামে মসজিদ',tx:[],donors:[]}}}
-let cloudReady=false, cloudBusy=false, cloudUnsub=null, currentUser=null, currentRole='';
-const MOSQUE_DOC='sahabdir';
-const firebaseConfig={apiKey:"AIzaSyBHcCmN2Py8GcuHKCbdkCmlf5LReVZ9uk",authDomain:"sahabdir-mosque-hisab.firebaseapp.com",projectId:"sahabdir-mosque-hisab",storageBucket:"sahabdir-mosque-hisab.firebasestorage.app",messagingSenderId:"612010553303",appId:"1:612010553303:web:7d7b3c15f67b36bbfee592"};
-let fbApp=null,fbAuth=null,fbStore=null,recaptchaVerifier=null,confirmationResult=null;
-try{fbApp=firebase.initializeApp(firebaseConfig);fbAuth=firebase.auth();fbStore=firebase.firestore();}catch(e){console.error('Firebase init:',e)}
-const cleanPhone=p=>String(p||'').replace(/[\s()-]/g,'');
-const memberRef=phone=>fbStore.collection('mosques').doc(MOSQUE_DOC).collection('members').doc(phone);
-const dataRef=()=>fbStore.collection('mosques').doc(MOSQUE_DOC).collection('data').doc('main');
-function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(cloudReady&&currentUser&&!cloudBusy){cloudBusy=true;dataRef().set({payload:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:currentUser.uid}).then(()=>{cloudBusy=false;setAuthStatus('অনলাইন হিসাব সংরক্ষিত হয়েছে।','success')}).catch(e=>{cloudBusy=false;setAuthStatus('অনলাইনে সংরক্ষণ হয়নি: '+(e.message||e),'error')})}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 const fmt=n=>'৳ '+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=()=>{const d=new Date();const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);const v={};parts.forEach(p=>v[p.type]=p.value);return `${v.year}-${v.month}-${v.day}`};
@@ -612,90 +579,7 @@ function backupJSON(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'app
 function restoreJSON(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.tx)||!Array.isArray(x.donors))throw Error();askConfirm('বর্তমান ডেটার জায়গায় ব্যাকআপের তথ্য বসাবেন?',()=>{db=x;save();notify('ব্যাকআপ ফিরিয়ে আনা হয়েছে।')},'ব্যাকআপ ফিরিয়ে আনুন')}catch(err){notify('ফাইলটি সঠিক ব্যাকআপ নয়।','error')}e.target.value=''};r.readAsText(file)}
 function exportCSV(){const rows=[['তারিখ','ধরন','খাত','পরিমাণ','মাধ্যম','দাতা/বিবরণ'],...db.tx.map(t=>[t.date,t.type==='income'?'আয়':'ব্যয়',t.category,t.amount,t.account==='bank'?'ব্যাংক':'নগদ',db.donors.find(d=>d.id===t.donorId)?.name||t.note||''])];const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='mosque-report.csv';a.click();URL.revokeObjectURL(a.href)}
 function clearAll(){askConfirm('এই ডিভাইসের সব হিসাব স্থায়ীভাবে মুছে ফেলবেন? আগে ব্যাকআপ নিন।',()=>{db={mosque:db.mosque,tx:[],donors:[]};save();notify('এই ডিভাইসের সব হিসাব মুছে ফেলা হয়েছে।')},'সব মুছুন')}
-function showFirebaseHelp(){openModal('অনলাইন লগইন ও ব্যবহারকারী',`<p>এই সংস্করণে Firebase Phone OTP লগইন ও Firestore অনলাইন সিঙ্ক যুক্ত আছে। প্রথমে Rules-এ আপনার প্রধান অ্যাডমিন নম্বর বসিয়ে Publish করুন। এরপর ওই নম্বর দিয়ে OTP লগইন করুন। প্রথম অ্যাডমিন সদস্য ডকুমেন্টটি Firebase Console-এ হাতে তৈরি করতে হবে।</p><p class="note">প্রথম অ্যাডমিন তৈরি হওয়ার পর অ্যাপের ব্যাকআপ পাতায় “অনুমোদিত ব্যবহারকারী” থেকে অন্য নম্বর যোগ করুন। নতুন ব্যবহারকারীকে আগে একবার OTP লগইন করতে হবে।</p><p class="smallmuted">এই অ্যাপের সব হিসাব একটি Firestore document-এ সিঙ্ক হয়; Firestore-এর ১ MiB document limit-এর মধ্যে রাখুন এবং নিয়মিত JSON ব্যাকআপ নিন। বড় ডেটার জন্য আলাদা collection-ভিত্তিক সংস্করণ দরকার হবে।</p>`)}
-
-function setAuthStatus(msg,type='info'){const el=document.getElementById('authStatus');if(el){el.textContent=msg;el.className=type==='error'?'note':'note';if(type==='success')el.style.background='#e8f7ee';}}
-function setupRecaptcha(){if(!fbAuth)throw new Error('Firebase SDK চালু হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।');if(!recaptchaVerifier){recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal'},fbAuth);return recaptchaVerifier.render().then(()=>recaptchaVerifier)}return Promise.resolve(recaptchaVerifier)}
-async function sendPhoneOTP(){
- try{
-  const phone=cleanPhone(document.getElementById('loginPhone').value);
-  if(!/^\+8801[3-9]\d{8}$/.test(phone)){setAuthStatus('বাংলাদেশি নম্বর +8801XXXXXXXXX ফরম্যাটে লিখুন।','error');return}
-  setAuthStatus('reCAPTCHA যাচাই হচ্ছে...');
-  const verifier=await setupRecaptcha();
-  confirmationResult=await fbAuth.signInWithPhoneNumber(phone,verifier);
-  document.getElementById('otpArea').style.display='block';
-  setAuthStatus('OTP পাঠানো হয়েছে। SMS-এর কোড লিখুন।','success');
- }catch(e){setAuthStatus('OTP পাঠানো যায়নি: '+(e.message||e),'error');if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}}
-}
-async function verifyPhoneOTP(){
- try{
-  if(!confirmationResult)throw new Error('আগে OTP পাঠান।');
-  const code=document.getElementById('loginOtp').value.trim();
-  if(!/^\d{6}$/.test(code))throw new Error('৬ সংখ্যার OTP লিখুন।');
-  const cred=await confirmationResult.confirm(code);
-  await activateAccount(cred.user);
- }catch(e){setAuthStatus('লগইন হয়নি: '+(e.message||e),'error')}
-}
-async function activateAccount(user){
- currentUser=user;
- const phone=cleanPhone(user.phoneNumber);
- const ref=memberRef(phone);
- const snap=await ref.get();
- if(!snap.exists||snap.data().active!==true){
-  await fbAuth.signOut();currentUser=null;
-  setAuthStatus('এই নম্বরটি এখনো অ্যাডমিন অনুমোদন করেননি। অ্যাডমিনের সঙ্গে যোগাযোগ করুন.','error');return;
- }
- currentRole=snap.data().role||'member';
- document.getElementById('authGate').style.display='none';
- setAuthStatus('লগইন সফল','success');
- if(cloudUnsub){cloudUnsub();cloudUnsub=null}
- const remote=await dataRef().get();
- if(remote.exists&&remote.data().payload){
-  cloudBusy=true;db=remote.data().payload;
-  localStorage.setItem(KEY,JSON.stringify(db));renderAll();cloudBusy=false;
-  cloudReady=true;
-  cloudUnsub=dataRef().onSnapshot(doc=>{if(!doc.exists||!doc.data().payload||cloudBusy)return;cloudBusy=true;db=doc.data().payload;localStorage.setItem(KEY,JSON.stringify(db));renderAll();cloudBusy=false;});
- }else{
-  cloudReady=true;
-  if(currentRole==='admin'){
-   await dataRef().set({payload:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedBy:user.uid});
-  }else{
-   cloudReady=false;setAuthStatus('ক্লাউডে এখনো কোনো হিসাব নেই। অ্যাডমিনকে প্রথম ডেটা আপলোড করতে বলুন।','error');
-  }
- }
- renderMemberAdmin();
- notify('অনলাইন অ্যাকাউন্টে লগইন হয়েছে।');
-}
-async function logoutCloud(){
- if(cloudUnsub){cloudUnsub();cloudUnsub=null}cloudReady=false;currentRole='';currentUser=null;
- if(fbAuth)await fbAuth.signOut();
- document.getElementById('authGate').style.display='flex';
- document.getElementById('otpArea').style.display='none';
- document.getElementById('loginOtp').value='';
- setAuthStatus('লগআউট হয়েছে। আবার লগইন করতে ফোন নম্বর দিন।');
-}
-function renderMemberAdmin(){
- const host=document.getElementById('memberAdminPanel');if(!host)return;
- if(currentRole!=='admin'){host.innerHTML='<div class="smallmuted">শুধু প্রধান অ্যাডমিন ব্যবহারকারী যোগ করতে পারবেন।</div>';return}
- host.innerHTML=`<label>নতুন দায়িত্বশীলের ফোন নম্বর</label><input id="newMemberPhone" placeholder="+8801XXXXXXXXX"><label>নাম (ঐচ্ছিক)</label><input id="newMemberName" placeholder="ব্যক্তির নাম"><div class="actions"><button class="btn" type="button" onclick="addApprovedMember()">নম্বর অনুমোদন করুন</button><button class="btn secondary" type="button" onclick="listApprovedMembers()">তালিকা দেখুন</button><button class="btn secondary" type="button" onclick="logoutCloud()">লগআউট</button></div><div id="approvedMembersList"></div><p class="smallmuted">ব্যবহারকারীকে আগে নিজের নম্বর দিয়ে একবার OTP লগইন করতে হবে। তারপর এখানে তাঁর নম্বর অনুমোদন করুন।</p>`;
-}
-async function addApprovedMember(){
- try{
-  if(currentRole!=='admin')throw new Error('শুধু অ্যাডমিন এই কাজ করতে পারবেন।');
-  const phone=cleanPhone(document.getElementById('newMemberPhone').value);
-  const name=document.getElementById('newMemberName').value.trim();
-  if(!/^\+8801[3-9]\d{8}$/.test(phone))throw new Error('সঠিক +8801XXXXXXXXX নম্বর লিখুন।');
-  await memberRef(phone).set({phone,name,role:'member',active:true,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  notify('ফোন নম্বর অনুমোদন হয়েছে।');document.getElementById('newMemberPhone').value='';document.getElementById('newMemberName').value='';listApprovedMembers();
- }catch(e){notify('নম্বর যোগ হয়নি: '+(e.message||e),'error')}
-}
-async function listApprovedMembers(){
- try{
-  const snap=await fbStore.collection('mosques').doc(MOSQUE_DOC).collection('members').get();
-  const rows=snap.docs.map(d=>{const x=d.data();return `<div class="item"><div><strong>${esc(x.name||'নাম দেওয়া হয়নি')}</strong><small>${esc(x.phone||d.id)} • ${esc(x.role||'member')}</small></div><span class="pill">${x.active?'অনুমোদিত':'বন্ধ'}</span></div>`}).join('');
-  const el=document.getElementById('approvedMembersList');if(el)el.innerHTML=rows||'<div class="empty">কোনো ব্যবহারকারী নেই।</div>';
- }catch(e){notify('তালিকা আনা যায়নি: '+e.message,'error')}
-}
+function showFirebaseHelp(){openModal('অনলাইন ব্যাকআপ সেটআপ',`<ol><li>Google Firebase Console-এ একটি project তৈরি করুন।</li><li>Authentication থেকে Email/Password sign-in চালু করুন এবং ব্যবহারকারীদের অ্যাকাউন্ট তৈরি করুন।</li><li>Firestore Database তৈরি করুন।</li><li>Project settings থেকে Web App config সংগ্রহ করুন।</li><li>এই অ্যাপের পরবর্তী সংস্করণে Firebase config, mosque ID এবং Firestore নিরাপত্তা-নিয়ম যুক্ত করতে হবে।</li></ol><div class="note">গুরুত্বপূর্ণ: শুধু Firebase config বসালেই নিরাপত্তা সম্পূর্ণ হয় না। নির্দিষ্ট মসজিদের অনুমোদিত সদস্য ছাড়া অন্য কেউ যেন তথ্য পড়তে বা বদলাতে না পারে, সে জন্য membership-ভিত্তিক Firestore Rules লাগবে।</div><p class="smallmuted">বর্তমান ফাইলে এখনো Firebase login বা cloud sync কোড যুক্ত নেই। অনলাইন সুবিধা চালুর জন্য Firebase প্রকল্পের তথ্য প্রয়োজন।</p>`)}
 
 function updateBangladeshClock(){
  const now=new Date();
@@ -706,6 +590,6 @@ function updateBangladeshClock(){
 }
 updateBangladeshClock();setInterval(updateBangladeshClock,1000);
 
-const rm=document.getElementById('reportMonth');rm.value=today().slice(0,7);renderAll();renderMemberAdmin();
+const rm=document.getElementById('reportMonth');rm.value=today().slice(0,7);renderAll();
 </script>
 </body></html>
